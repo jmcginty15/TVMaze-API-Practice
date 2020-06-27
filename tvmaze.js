@@ -21,7 +21,7 @@ async function searchShows(query) {
   // TODO: Make an ajax request to the searchShows api.  Remove
   // hard coded data.
   const shows = await axios.get('http://api.tvmaze.com/search/shows/', { params: { q: query } });
-  const showsList = shows.data.map(function (show) {
+  const showsArr = shows.data.map(function (show) {
     const reducedList = {
       id: show.show.id,
       name: show.show.name,
@@ -36,7 +36,7 @@ async function searchShows(query) {
     }
     return reducedList;
   })
-  return showsList;
+  return showsArr;
 }
 
 
@@ -57,6 +57,7 @@ function populateShows(shows) {
           <div class="card-body">
             <h5 class="card-title">${show.name}</h5>
             <p class="card-text">${show.summary}</p>
+            <button class="btn-primary">See Episodes</button>
           </div>
          </div>
        </div>
@@ -94,6 +95,23 @@ async function getEpisodes(id) {
   // TODO: get episodes from tvmaze
   //       you can get this by making GET request to
   //       http://api.tvmaze.com/shows/SHOW-ID-HERE/episodes
-
+  const episodes = await axios.get(`http://api.tvmaze.com/shows/${id}/episodes`)
+  const episodesArr = episodes.data.map(function (episode) {
+    const episodeList = {
+      id: episode.id,
+      name: episode.name,
+      season: episode.season,
+      number: episode.number
+    }
+    return episodeList;
+  })
   // TODO: return array-of-episode-info, as described in docstring above
+  return episodesArr;
+}
+
+
+// Given a list of episodes, populate the episode list into the DOM
+
+function populateEpisodes(episodes) {
+
 }
