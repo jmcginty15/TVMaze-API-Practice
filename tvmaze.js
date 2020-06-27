@@ -113,5 +113,13 @@ async function getEpisodes(id) {
 // Given a list of episodes, populate the episode list into the DOM
 
 function populateEpisodes(episodes) {
+  const $episodesList = $('#episodes-list');
+  $episodesList.empty();
 
+  for (let episode of episodes) {
+    let $item = $(`<li>Season ${episode.season}, Episode ${episode.number}: "${episode.name}"</li>`)
+    $episodesList.append($item);
+  }
+
+  $('#episodes-area').show();
 }
