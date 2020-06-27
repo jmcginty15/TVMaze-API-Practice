@@ -21,18 +21,18 @@ async function searchShows(query) {
   // TODO: Make an ajax request to the searchShows api.  Remove
   // hard coded data.
   const shows = await axios.get('http://api.tvmaze.com/search/shows/', { params: { q: query } });
-  const showsList = shows.data.map(function(show) {
+  const showsList = shows.data.map(function (show) {
     const reducedList = {
       id: show.show.id,
       name: show.show.name,
       summary: show.show.summary,
     }
     // if show data has an image, add it to the object's image property
-    // if not, add the TVMaze API logo as a default image
+    // if not, add the default image
     try {
       reducedList.image = show.show.image.original;
     } catch {
-      reducedList.image = 'https://static.tvmaze.com/images/api/tvm_api.png';
+      reducedList.image = 'https://store-images.s-microsoft.com/image/apps.65316.13510798887490672.6e1ebb25-96c8-4504-b714-1f7cbca3c5ad.f9514a23-1eb8-4916-a18e-99b1a9817d15?mode=scale&q=90&h=300&w=300';
     }
     return reducedList;
   })
@@ -53,10 +53,11 @@ function populateShows(shows) {
     let $item = $(
       `<div class="col-md-6 col-lg-3 Show" data-show-id="${show.id}">
          <div class="card" data-show-id="${show.id}">
-           <div class="card-body">
-             <h5 class="card-title">${show.name}</h5>
-             <p class="card-text">${show.summary}</p>
-           </div>
+          <img class="card-img-top" src="${show.image}">  
+          <div class="card-body">
+            <h5 class="card-title">${show.name}</h5>
+            <p class="card-text">${show.summary}</p>
+          </div>
          </div>
        </div>
       `);
