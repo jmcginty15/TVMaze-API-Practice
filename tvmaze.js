@@ -57,7 +57,7 @@ function populateShows(shows) {
           <div class="card-body">
             <h5 class="card-title">${show.name}</h5>
             <p class="card-text">${show.summary}</p>
-            <button class="btn-primary">See Episodes</button>
+            <button class="btn-primary btn-episodes">See Episodes</button>
           </div>
          </div>
        </div>
@@ -120,6 +120,21 @@ function populateEpisodes(episodes) {
     let $item = $(`<li>Season ${episode.season}, Episode ${episode.number}: "${episode.name}"</li>`)
     $episodesList.append($item);
   }
-
-  $('#episodes-area').show();
 }
+
+
+// Handle "see episodes" button click
+// - Get show id of button that was clicked
+// - Get episode list and populate DOM
+// - Show #episodes-area
+
+$('#shows-list').on('click', async function (evt) {
+  if (evt.target.tagName === 'BUTTON') {
+    const $card = $(evt.target.parentElement.parentElement);
+    const showID = $card.attr('data-show-id');
+
+    const episodes = await getEpisodes(showID);
+    populateEpisodes(episodes);
+    $('#episodes-area').show();
+  }
+})
